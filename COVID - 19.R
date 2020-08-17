@@ -73,21 +73,21 @@ Bogota <- COVID %>% filter(`Código DIVIPOLA`==11001)
 Bogota_select <- Bogota %>% select(`Fecha de notificación`,atención,Edad,Sexo,
                                    Estado,`Fecha de muerte`,`Fecha diagnostico`,
                                    `Fecha recuperado`,`Tipo recuperación`) %>%
-        mutate(F_not=ymd_hms(`Fecha de notificación`),
+  mutate(F_not=ymd_hms(`Fecha de notificación`),
                F_muerte=ymd_hms(`Fecha de muerte`),
                F_diagnos=ymd_hms(`Fecha diagnostico`),
                F_recuperado=ymd_hms(`Fecha recuperado`)) %>%
-        select(-`Fecha de notificación`,-`Fecha de muerte`,
+  select(-`Fecha de notificación`,-`Fecha de muerte`,
                -`Fecha diagnostico`,-`Fecha recuperado`) %>%
-        arrange(desc(F_not))
+  arrange(desc(F_not))
 
 ## 1. En primera instancia, calcularé los casos totales por día 
 # y el acumulado en el tiempo
 
 
 Bogota_crecimiento <- Bogota_select %>% group_by(F_not)%>% # Agrupamos por fecha
-        dplyr::summarise(Total=n()) %>% # Sacamos el total de casos por fecha
-        mutate(Acum=cumsum(Total),log_acum=log(Acum)) # Sacamos el logaritmo del acumulado
+  dplyr::summarise(Total=n()) %>% # Sacamos el total de casos por fecha
+  mutate(Acum=cumsum(Total),log_acum=log(Acum)) # Sacamos el logaritmo del acumulado
        
 # Graficamos el logaritmo del crecimiento en el tiempo de los casos en Bogotá 
 
