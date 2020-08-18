@@ -98,8 +98,8 @@ ggplot(Bogota_crecimiento,aes(x=F_not,y=log_acum))+geom_line()
 # su trayectoria en el tiempo
 
 Bogota_estado <- Bogota_select %>%
-        group_by(F_not,atención) %>% # Agrupamos por fecha de notificación y tipo de atención
-        dplyr::summarise(total=n())
+  group_by(F_not,atención) %>% # Agrupamos por fecha de notificación y tipo de atención
+  dplyr::summarise(total=n())
 
 # Dada la estructura de los datos, debemos extraer por un lado los casos
 # recuperados y en otro los fallecidos, de esta forma unirnos a travpés de la función
@@ -134,31 +134,29 @@ COVID_select <- COVID %>% select(`Fecha de notificación`,Ciudad=`Ciudad de ubic
                           ,atención,Edad,Sexo,
                       Estado,`Fecha de muerte`,`Fecha diagnostico`,
                       `Fecha recuperado`,`Tipo recuperación`) %>%
-        mutate(F_not=ymd_hms(`Fecha de notificación`),
+  mutate(F_not=ymd_hms(`Fecha de notificación`),
                F_muerte=ymd_hms(`Fecha de muerte`),
                F_diagnos=ymd_hms(`Fecha diagnostico`),
                F_recuperado=ymd_hms(`Fecha recuperado`)) %>%
-        select(-`Fecha de notificación`,-`Fecha de muerte`,
+  select(-`Fecha de notificación`,-`Fecha de muerte`,
                -`Fecha diagnostico`,-`Fecha recuperado`)
 
 ## 1. En primera instancia, calcularé los casos totales por día 
 # y el acumulado en el tiempo
 
 COVID_crecimiento <- COVID_select %>%
-        group_by(Departamento,F_not) %>% 
-        dplyr::summarise(Total=n()) %>%
-        mutate(Acum=cumsum(Total),log_acum=log(Acum)) 
+  group_by(Departamento,F_not) %>% 
+  dplyr::summarise(Total=n()) %>%
+  mutate(Acum=cumsum(Total),log_acum=log(Acum)) 
 
 # Graficamos el logaritmo del crecimiento en el tiempo de los casos en Colombia 
 # por departamento
 
 ggplot(COVID_crecimiento,aes(x=F_not,y=log_acum),
        colour=Departamento) +
-        geom_line() +
-        facet_wrap(~Departamento,scales = "free_y") # Este comando nos permite 
+  geom_line() +
+  facet_wrap(~Departamento,scales = "free_y") # Este comando nos permite 
         # tener todos los casos en una sola gráfica
 
-## 2. Análisis de las cabeceras en Colombia 
 
-cabeceras <- c() 
 
