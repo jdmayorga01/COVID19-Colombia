@@ -70,7 +70,7 @@ Bogota <- COVID %>% filter(`Código DIVIPOLA`==11001)
 # En este código vamos a seleccionar las variables relevantes,
 # además le cambiare el formato a las columnas que tengan fecha dado que vienen 
 # en formato character. Esto se hace a través del package "lubridate". 
-Bogota_select <- Bogota %>% select(`Fecha de notificación`,atención,Edad,Sexo,
+Bogota <- Bogota %>% select(`Fecha de notificación`,atención,Edad,Sexo,
                                    Estado,`Fecha de muerte`,`Fecha diagnostico`,
                                    `Fecha recuperado`,`Tipo recuperación`) %>%
   mutate(F_not=ymd_hms(`Fecha de notificación`),
@@ -85,10 +85,11 @@ Bogota_select <- Bogota %>% select(`Fecha de notificación`,atención,Edad,Sexo,
 # y el acumulado en el tiempo
 
 
-Bogota_crecimiento <- Bogota_select %>% group_by(F_not)%>% # Agrupamos por fecha
+Bogota_crecimiento <- Bogota %>% group_by(F_not)%>% # Agrupamos por fecha
   dplyr::summarise(Total=n()) %>% # Sacamos el total de casos por fecha
-  mutate(Acum=cumsum(Total),log_acum=log(Acum)) # Sacamos el logaritmo del acumulado
-       
+  mutate(Acum=cumsum(Total),log_acum=log(Acum)) %>% # Sacamos el logaritmo del acumulado
+  arrange(desc(F_not)) # Con este argumento se puede analizar la ultima fecha de actualización 
+
 # Graficamos el logaritmo del crecimiento en el tiempo de los casos en Bogotá 
 
 ggplot(Bogota_crecimiento,aes(x=F_not,y=log_acum))+geom_line()
