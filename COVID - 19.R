@@ -58,7 +58,8 @@ Crecimiento_BOG <- BOGOTA_SALUDATA %>% group_by(F_INICIO) %>%
   
 ggplot(Crecimiento_BOG,aes(x=F_INICIO,y=log_acum)) + geom_line(color="#CC0000",
                                                                size=1) +
-  labs(x="Fecha de Diagnóstico",y="Log casos")
+  labs(x="Fecha de Diagnóstico",y="Log casos") + 
+  theme_classic()
 
 ## 2. CON LOS DATOS DE INS
 
