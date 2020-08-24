@@ -14,6 +14,8 @@ library(lubridate)
 
 # Data set ----------------------------------------------------------------
 
+getwd()
+
 # URL de la base de datos del INS 
 download.file("https://www.datos.gov.co/api/views/gt2j-8ykr/rows.csv?accessType=DOWNLOAD",
               destfile = "Data/COVID-19.csv")
@@ -56,8 +58,8 @@ Crecimiento_BOG <- BOGOTA_SALUDATA %>% group_by(F_INICIO) %>%
   mutate(Acumulado=cumsum(Total),log_acum=log(Acumulado)) %>%
   arrange(desc(F_INICIO))
   
-ggplot(Crecimiento_BOG,aes(x=F_INICIO,y=log_acum)) + geom_line(color="#CC0000",
-                                                               size=1) +
+ggplot(Crecimiento_BOG,aes(x=F_INICIO,y=log_acum)) + 
+  geom_line(color="#CC0000",size=1) +
   labs(x="Fecha de Diagnóstico",y="Log casos") + 
   theme_classic()
 
@@ -99,7 +101,7 @@ ggplot(Bogota_crecimiento,aes(x=F_not,y=log_acum))+geom_line()
 # Se busca crear una tasa de muertes sobre recuperados y analizar 
 # su trayectoria en el tiempo
 
-Bogota_estado <- Bogota_select %>%
+Bogota_estado <- Bogota %>%
   group_by(F_not,atención) %>% # Agrupamos por fecha de notificación y tipo de atención
   dplyr::summarise(total=n())
 
