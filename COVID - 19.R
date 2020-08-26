@@ -63,6 +63,18 @@ ggplot(Crecimiento_BOG,aes(x=F_INICIO,y=log_acum)) +
   labs(x="Fecha de Diagnóstico",y="Log casos") + 
   theme_classic()
 
+# Crecimiento de casos por localidad
+
+Crecimiento_loc <-  BOGOTA_SALUDATA %>%
+  group_by(F_INICIO,Localidad) %>%
+  dplyr::summarise(Total=n()) %>% 
+  mutate(Acumulado=cumsum(Total),log_acum=log(Acumulado)) %>%
+  arrange(desc(F_INICIO))
+
+ggplot(Crecimiento_loc,aes(x=F_INICIO,y=log_acum, color=Localidad)) + 
+  geom_line() + 
+  facet_wrap(~Localidad)
+
 ## 2. CON LOS DATOS DE INS
 
 # El codigo 11001 corresponde a la ciudad de Bogotá,
