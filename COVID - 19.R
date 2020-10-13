@@ -11,6 +11,8 @@ library(Hmisc)
 library(plyr)
 library(data.table)
 library(lubridate)
+library(ggplot2)
+library(tidyverse)
 
 # Data set ----------------------------------------------------------------
 
@@ -18,18 +20,19 @@ getwd()
 
 # URL de la base de datos del INS 
 download.file("https://www.datos.gov.co/api/views/gt2j-8ykr/rows.csv?accessType=DOWNLOAD",
-              destfile = "Data/COVID-19.csv")
+              destfile = "Datos/Datos_INS")
 
 # Con UTF-8 logro leer la base de datos bien, dado que tiene tildes. El comando 
 # fread es parte del package "data.table"
 
 # Esta base de datos es la de INS 
-COVID <- fread("Data/COVID-19.csv",encoding = 'UTF-8')
+COVID <- read_csv("Datos/Datos_INS",encoding = 'UTF-8',
+                  cols("Fecha de notificación"=))
 head(COVID)
 
 # Esta es la base de SALUDATA de la Alcaldia de Bogotá
 download.file("http://saludata.saludcapital.gov.co/osb/datos_abiertos_osb/enf-transmisibles/OSB_EnfTransm-COVID-19.csv",
-              destfile = "Data/OSB_EnfTransm-COVID-19.csv")
+              destfile = "Datos//OSB_EnfTransm-COVID-19.csv")
 
 # Utilizo el argumento skip para saltarme las primera 6 filas que no contienen datos
 BOGOTA_SALUDATA <-  fread("Data/OSB_EnfTransm-COVID-19.csv",skip = 7)
